@@ -1,5 +1,5 @@
 # Better Mongoose RootQuerySelector Type
-### This proposition is currently still in development, please check the [TODO List](https://github.com/PCOffline/mongoose-filter-query-poc/blob/main/README.md)
+### This proposition is currently still in development, please check the [TODO List](https://github.com/PCOffline/mongoose-filter-query-poc/blob/main/README.md#todo-list)
 A proposition for a change of the `RootQuerySelector` type that includes nested paths instead of `any`.
 # How to Use
 As of the moment, you cannot directly use this repository without manually configuring a module override. Optimally, this proposition should be merged to Mongoose's official types the second it is ready.
