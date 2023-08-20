@@ -9,6 +9,12 @@ A proposition for a change of the `RootQuerySelector` type that includes nested 
 As of the moment, you cannot directly use this repository without manually configuring a module override. Optimally, this proposition should be merged to Mongoose's official types the second it is ready.
 Either way, there's a plan to add an option for a module override within this repository, and to turn this repository into an npm package until Mongoose decides to merge it.
 
+## Stability & Performance
+
+### Unit Testing
+
+### Performance Charts
+
 ## Motivation
 
 As of today, the RootQuerySelector type has the following definition:
