@@ -44,7 +44,7 @@ interface Input {
 interface ExpectedOutput extends RootQuerySelector<Input> {
   field: Condition<string>;
   // Can't compute these fields:
-  nested: Condition<{ nested: anotherField: number }>;
+  nested: Condition<{ nested: { anotherField: number } }>;
   'nested.anotherField': Condition<number>;
 }
 ```
