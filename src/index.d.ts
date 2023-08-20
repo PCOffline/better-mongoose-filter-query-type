@@ -33,7 +33,7 @@ type RootQuerySelector<T> = {
  * A utility function for DeepNestedAccess, handling accessing an array with a dot-notation string.
  * In case K is a number, returns T[K]. Otherwise, mimics MongoDB's syntax where array.field is an access to the array's elements – i.e. T[number] and then follow the dot-notation behaviour.
  *
- * @see DeepNestedAccess
+ * @see GetFieldByPath
  * @example
  * type Array1 = [1, 2, 3];
  * type Array2 = [{ field: 'hello' }, { field: 'world' }];
@@ -42,14 +42,14 @@ type RootQuerySelector<T> = {
  * type Test2 = ArrayNestedAccess<Array2, 'field'>; // 'hello' | 'world' - behaves like accessing the properties of the elements of the array, similar to MongoDB's query behaviour.
  * type Test3 = ArrayNestedAccess<Array2, '0.field'>; // 'hello' - you can be explicit about the index, the dot-notation behaviour works as expected.
  */
-type ArrayNestedAccess<
+type GetFieldInArrayByPath<
   T extends Record<number | `${number}`, any>,
   Path extends string | number
 > = Path extends number | `${number}`
   ? T[Path]
   : Path extends `${infer Index extends number}.${infer Rest}`
-  ? DeepNestedAccess<T[Index], Rest>
-  : DeepNestedAccess<T[number], Path>;
+  ? GetFieldByPath<T[Index], Rest>
+  : GetFieldByPath<T[number], Path>;
 
 /**
 * Receives two types: an object and a string in a dot-notation format and returns the type of the value at the place specified by K in T
@@ -59,14 +59,14 @@ type ArrayNestedAccess<
 * type Path = 'nested.field'
 * DeepNestedAccess<Obj, Path> //-> 'nestedValue'
 */
-type DeepNestedAccess<
-  T extends Record<string | number | symbol, any>,
+type GetFieldByPath<
+  Object extends Record<string | number | symbol, any>,
   Path extends string | number
-> = T extends AnyArray<any>
-  ? ArrayNestedAccess<T, Path>
+> = Object extends AnyArray<any>
+  ? GetFieldInArrayByPath<Object, Path>
   : Path extends `${infer Field}.${infer Rest}`
-  ? DeepNestedAccess<T[string & Field], Rest>
-  : T[Path];
+  ? GetFieldByPath<Object[string & Field], Rest>
+  : Object[Path];
 
 type Printable = string | number | boolean;
 
@@ -110,7 +110,7 @@ type RecursiveFieldsOfObject<T> = keyof {
  * type Result = FilterQuery<Obj> //-> { field: Condition<number>; 'nested.field': Condition<string>; array: Condition<string[]>; [x: `array.${number}`]: Condition<string> }
  */
 type _FilterQuery<T extends object> = {} & {
-  [K in RecursiveFieldsOfObject<T>]?: Condition<DeepNestedAccess<T, string & K>>;
+  [K in RecursiveFieldsOfObject<T>]?: Condition<GetFieldByPath<T, string & K>>;
 };
 
 type FilterQuery<T extends object> = _FilterQuery<T> & RootQuerySelector<_FilterQuery<T>>;
