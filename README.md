@@ -127,6 +127,7 @@ The end result is a union of paths to each field in the object.
   - [ ] Simple Arrays (arrays of primitive types)
   - [ ] Nested Objects
   - [ ] Arrays of Objects
+  - [ ] Readonly Arrays
   - [ ] Nested Arrays
   - [ ] Nested Arrays of Objects
   - [ ] Complex Interfaces Mixing Multiple Types
