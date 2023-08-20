@@ -1,7 +1,10 @@
 import type { QuerySelector } from "mongoose";
 
+export type AnyArray<T> = T[] | ReadonlyArray<T>;
+
 // An override of the exported ApplyBasicQueryCasting that removes the unnecessary any in the union.
-type ApplyBasicQueryCasting<T> = T | T[] | (T extends (infer U)[] ? U : T);
+type ApplyBasicQueryCasting<T> = T | T[] | (T extends AnyArray<(infer U)> ? U : T);
+
 
 // Use the override of ApplyBasicQueryCasting
 type Condition<T> = ApplyBasicQueryCasting<T> | QuerySelector<ApplyBasicQueryCasting<T>>;
@@ -59,7 +62,7 @@ type ArrayNestedAccess<
 type DeepNestedAccess<
   T extends Record<string | number | symbol, any>,
   Path extends string | number
-> = T extends any[]
+> = T extends AnyArray<any>
   ? ArrayNestedAccess<T, Path>
   : Path extends `${infer Field}.${infer Rest}`
   ? DeepNestedAccess<T[string & Field], Rest>
@@ -85,7 +88,7 @@ type ConcatUnion<Base extends Printable, Concat extends Printable> =
  * Recursion<Obj> //-> 'field' | 'nested.field' | 'array' | `array.${number}`
  */
 type RecursiveFieldsOfObject<T> = keyof {
-  [Property in keyof T as T[Property] extends any[]
+  [Property in keyof T as T[Property] extends AnyArray<any>
   ?
   | `${string & Property}.${number}`
   | Property
@@ -111,4 +114,3 @@ type _FilterQuery<T extends object> = {} & {
 };
 
 type FilterQuery<T extends object> = _FilterQuery<T> & RootQuerySelector<_FilterQuery<T>>;
-
