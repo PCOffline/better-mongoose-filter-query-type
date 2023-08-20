@@ -1,10 +1,30 @@
-import type { RootQuerySelector, QuerySelector } from "mongoose";
+import type { QuerySelector } from "mongoose";
 
 // An override of the exported ApplyBasicQueryCasting that removes the unnecessary any in the union.
 type ApplyBasicQueryCasting<T> = T | T[] | (T extends (infer U)[] ? U : T);
 
 // Use the override of ApplyBasicQueryCasting
 type Condition<T> = ApplyBasicQueryCasting<T> | QuerySelector<ApplyBasicQueryCasting<T>>;
+
+type RootQuerySelector<T> = {
+  /** @see https://www.mongodb.com/docs/manual/reference/operator/query/and/#op._S_and */
+  $and?: Array<FilterQuery<T>>;
+  /** @see https://www.mongodb.com/docs/manual/reference/operator/query/nor/#op._S_nor */
+  $nor?: Array<FilterQuery<T>>;
+  /** @see https://www.mongodb.com/docs/manual/reference/operator/query/or/#op._S_or */
+  $or?: Array<FilterQuery<T>>;
+  /** @see https://www.mongodb.com/docs/manual/reference/operator/query/text */
+  $text?: {
+    $search: string;
+    $language?: string;
+    $caseSensitive?: boolean;
+    $diacriticSensitive?: boolean;
+  };
+  /** @see https://www.mongodb.com/docs/manual/reference/operator/query/where/#op._S_where */
+  $where?: string | Function;
+  /** @see https://www.mongodb.com/docs/manual/reference/operator/query/comment/#op._S_comment */
+  $comment?: string;
+};
 
 /**
  * A utility function for DeepNestedAccess, handling accessing an array with a dot-notation string.
@@ -66,16 +86,16 @@ type ConcatUnion<Base extends Printable, Concat extends Printable> =
  */
 type RecursiveFieldsOfObject<T> = keyof {
   [Property in keyof T as T[Property] extends any[]
-    ?
-        | `${string & Property}.${number}`
-        | Property
-        | (T[Property][number] extends object
-            ? `${ConcatUnion<`${string & Property}.`, `${number}.`>}${string &
-                RecursiveFieldsOfObject<T[Property][number]>}`
-            : never)
-    : T[Property] extends object
-    ? `${string & Property}.${string & RecursiveFieldsOfObject<T[Property]>}`
-    : Property]: true;
+  ?
+  | `${string & Property}.${number}`
+  | Property
+  | (T[Property][number] extends object
+    ? `${ConcatUnion<`${string & Property}.`, `${number}.`>}${string &
+    RecursiveFieldsOfObject<T[Property][number]>}`
+    : never)
+  : T[Property] extends object
+  ? Property | `${string & Property}.${string & RecursiveFieldsOfObject<T[Property]>}`
+  : Property]: true;
 };
 
 /**
@@ -86,6 +106,9 @@ type RecursiveFieldsOfObject<T> = keyof {
  * type Obj = { field: number; nested: { field: string; }; array: string[] }
  * type Result = FilterQuery<Obj> //-> { field: Condition<number>; 'nested.field': Condition<string>; array: Condition<string[]>; [x: `array.${number}`]: Condition<string> }
  */
-type FilterQuery<T extends object> = {} & {
+type _FilterQuery<T extends object> = {} & {
   [K in RecursiveFieldsOfObject<T>]?: Condition<DeepNestedAccess<T, string & K>>;
-} & RootQuerySelector<T>;
+};
+
+type FilterQuery<T extends object> = _FilterQuery<T> & RootQuerySelector<_FilterQuery<T>>;
+
