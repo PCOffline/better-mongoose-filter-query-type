@@ -1,5 +1,5 @@
 import { expectTypeOf } from 'expect-type';
-import { RemoveIndex } from '../src/util.js';
+import { RemoveIndex } from '../../src/util.js';
 
 class Input {
   [x: string]: any
