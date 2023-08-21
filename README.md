@@ -2,7 +2,7 @@
 
 ### This proposition is currently still in development, please check the [TODO List](https://github.com/PCOffline/mongoose-filter-query-poc/blob/main/README.md#todo-list)
 
-A proposition for a change of the `RootQuerySelector` type that includes nested paths instead of `any`.
+A proposition for a change of the `RootQuerySelector` type to include nested paths and remove the `any` index signature.
 
 ## How to Use
 
