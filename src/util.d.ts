@@ -20,11 +20,14 @@ export type RemoveIndex<T> = {
  */
 export type GetFieldInArrayByPath<
   T extends Record<number | `${number}`, any>,
-  Path extends string | number
+  Path extends string | number,
 > = Path extends `${infer Index extends number}.${infer Rest}`
   ? GetFieldByPath<T[Index], Rest>
-  : Path extends number | `${number}`
-  ? T[Path] : GetFieldByPath<T[number], Path>;
+  : Path extends number | `${number}` | keyof T
+  ? T[Path]
+  : Path extends keyof T[number]
+  ? GetFieldByPath<T[number], Path>
+  : never;
 
 /**
 * Receives two types: an object and a string in a dot-notation format and returns the type of the value at the place specified by K in T
