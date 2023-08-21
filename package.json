@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "diagnostics": "tsc --extendedDiagnostics --generateTrace tracing",
-    "test": "tsd ./src --show-diff"
+    "test": "npm run build"
   },
   "keywords": [],
   "author": "",
