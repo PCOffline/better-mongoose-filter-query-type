@@ -61,9 +61,3 @@ type ActualResult = FilterQuery<VeryComplexData>;
 
 declare const f: ActualResult;
 console.log(f);
-
-interface I {
-  arr: readonly number[];
-}
-
-type Res = FilterQuery<I>;
