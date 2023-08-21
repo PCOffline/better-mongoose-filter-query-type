@@ -143,4 +143,3 @@ expectTypeOf<GetFieldInArrayByPath<Array<Input2>, 'x.nested.d.$.field3.0'>>().to
 expectTypeOf<GetFieldInArrayByPath<Array<Input2>, 'x.nested.d.$.field3.1'>>().toBeUnknown();
 expectTypeOf<GetFieldInArrayByPath<Array<Input2>, 'x.nested.d.$.field3.999'>>().toBeUnknown();
 expectTypeOf<GetFieldInArrayByPath<Array<Input2>, 'z'>>().toBeBoolean();
-
