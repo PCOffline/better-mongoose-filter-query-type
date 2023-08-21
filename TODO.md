@@ -1,8 +1,8 @@
 # TODO List
 
-- [ ] Add TSD and a test script
+- [x] Add expect-type
 - [ ] Add unit tests for FilterQuery
-  - [ ] Simple objects (no nested fields / arrays)
+  - [ ] Simple objects (no nested fields/arrays)
   - [ ] Simple Arrays (arrays of primitive types)
   - [ ] Nested Objects
   - [ ] Arrays of Objects
@@ -10,10 +10,9 @@
   - [ ] Nested Arrays
   - [ ] Nested Arrays of Objects
   - [ ] Complex Interfaces Mixing Multiple Types
-- [ ] Add unit tests for utility types
-  - [ ] DeepNestedAccess
-  - [ ] ArrayNestedAccess
-  - [ ] ConcatUnion
-- [ ] Refactor code to be more readable, meaningful names, better docs
+- [x] Add unit tests for utility types
+  - [x] GetFieldByPath
+  - [x] GetFieldInArrayByPath
+  - [x] ConcatUnion
+- [x] Refactor code to be more readable, meaningful names, and better docs
 - [ ] Add performance charts and data
-- [ ] Add examples
