@@ -1,6 +1,7 @@
+import type { AnyArray, ConcatUnion, GetFieldByPath, GetFieldInArrayByPath, Printable, RecursiveFieldsOfObject, RemoveIndex } from './util.js'
+
 declare module 'mongoose' {
   import type { QuerySelector, RootQuerySelector as _RootQuerySelector } from "mongoose";
-  import type { AnyArray, ConcatUnion, GetFieldByPath, GetFieldInArrayByPath, Printable, RecursiveFieldsOfObject } from './util.js'
 
   // An override of the exported ApplyBasicQueryCasting that removes the unnecessary any in the union.
   export type ApplyBasicQueryCasting<T> = T | T[] | (T extends AnyArray<(infer U)> ? U : T);

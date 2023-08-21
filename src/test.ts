@@ -1,4 +1,4 @@
-import type { FilterQuery } from "./index.js";
+import type { FilterQuery } from "mongoose";
 
 interface VeryComplexData {
   id: number;
