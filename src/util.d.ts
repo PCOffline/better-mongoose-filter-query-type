@@ -36,12 +36,14 @@ export type GetFieldInArrayByPath<
 */
 export type GetFieldByPath<
   Object extends Record<string | number | symbol, any>,
-  Path extends string | number
+  Path extends string | number,
 > = Object extends AnyArray<any>
   ? GetFieldInArrayByPath<Object, Path>
   : Path extends `${infer Field}.${infer Rest}`
   ? GetFieldByPath<Object[string & Field], Rest>
-  : Object[Path];
+  : Path extends keyof Object
+  ? Object[Path]
+  : never;
 
 export type Printable = string | number | boolean;
 
