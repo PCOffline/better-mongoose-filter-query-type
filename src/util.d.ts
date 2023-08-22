@@ -25,9 +25,7 @@ export type GetFieldInArrayByPath<
   ? GetFieldByPath<T[Index], Rest>
   : Path extends number | `${number}` | keyof T
   ? T[Path]
-  : Path extends keyof T[number]
-  ? GetFieldByPath<T[number], Path>
-  : never;
+  : GetFieldByPath<T[number], Path>;
 
 /**
 * Receives two types: an object and a string in a dot-notation format and returns the type of the value at the place specified by K in T

@@ -6,9 +6,9 @@ import { expectTypeOf } from 'expect-type';
 // ----------------------------------------------------------------
 
 // Empty Array
-expectTypeOf<GetFieldInArrayByPath<[], '0'>>().toBeNever();
-expectTypeOf<GetFieldInArrayByPath<[], '1'>>().toBeNever();
-expectTypeOf<GetFieldInArrayByPath<[], '999'>>().toBeNever();
+expectTypeOf<GetFieldInArrayByPath<[], '0'>>().toBeUndefined();
+expectTypeOf<GetFieldInArrayByPath<[], '1'>>().toBeUndefined();
+expectTypeOf<GetFieldInArrayByPath<[], '999'>>().toBeUndefined();
 expectTypeOf<GetFieldInArrayByPath<[], 'length'>>().toEqualTypeOf<0>();
 
 // Primitives
@@ -125,15 +125,15 @@ expectTypeOf<GetFieldInArrayByPath<readonly any[], '999'>>().toBeAny();
 expectTypeOf<GetFieldInArrayByPath<readonly any[], 'length'>>().toBeNumber();
 expectTypeOf<GetFieldInArrayByPath<readonly any[], 'someField'>>().toBeAny();
 
-// Arrays With Preset Size
-expectTypeOf<GetFieldInArrayByPath<[string, number]>, '0'>().toEqualTypeOf<string>();
-expectTypeOf<GetFieldInArrayByPath<[string, number]>, '1'>().toEqualTypeOf<number>();
-expectTypeOf<GetFieldInArrayByPath<[string, number]>, '2'>().toBeNever();
-expectTypeOf<GetFieldInArrayByPath<[string, number]>, 'length'>().toEqualTypeOf<2>();
-expectTypeOf<GetFieldInArrayByPath<readonly [string, number]>, '0'>().toEqualTypeOf<string>();
-expectTypeOf<GetFieldInArrayByPath<readonly [string, number]>, '1'>().toEqualTypeOf<number>();
-expectTypeOf<GetFieldInArrayByPath<readonly [string, number]>, '2'>().toBeNever();
-expectTypeOf<GetFieldInArrayByPath<readonly [string, number]>, 'length'>().toEqualTypeOf<2>();
+// Arrays With Pre-set Size
+expectTypeOf<GetFieldInArrayByPath<[string, number], '0'>>().toBeString();
+expectTypeOf<GetFieldInArrayByPath<[string, number], '1'>>().toBeNumber();
+expectTypeOf<GetFieldInArrayByPath<[string, number], '2'>>().toBeUndefined();
+expectTypeOf<GetFieldInArrayByPath<[string, number], 'length'>>().toEqualTypeOf<2>();
+expectTypeOf<GetFieldInArrayByPath<readonly [string, number], '0'>>().toBeString();
+expectTypeOf<GetFieldInArrayByPath<readonly [string, number], '1'>>().toBeNumber();
+expectTypeOf<GetFieldInArrayByPath<readonly [string, number], '2'>>().toBeUndefined();
+expectTypeOf<GetFieldInArrayByPath<readonly [string, number], 'length'>>().toEqualTypeOf<2>();
 
 // Unions
 expectTypeOf<GetFieldInArrayByPath<Array<string | number>, '0'>>().toEqualTypeOf<string | number>();
