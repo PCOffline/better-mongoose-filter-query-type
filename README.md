@@ -1,4 +1,5 @@
 # Better Mongoose RootQuerySelector Type
+![Type-Level Tests](https://github.com/PCOffline/better-mongoose-filter-query-type/actions/workflows/node.js.yml/badge.svg)
 
 ### This proposition is currently still in development, please check the [TODO List](https://github.com/PCOffline/mongoose-filter-query-poc/blob/main/README.md#todo-list)
 
