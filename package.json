@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "diagnostics": "tsc --extendedDiagnostics --generateTrace tracing",
+    "diagnostics": "tsc --project tsconfig.tracing.json --generateTrace tracing",
     "test": "npm run build"
   },
   "keywords": [],
@@ -14,9 +14,9 @@
   "license": "ISC",
   "dependencies": {
     "expect-type": "^0.16.0",
-    "mongoose": "^7.4.3"
+    "mongoose": "^7.4.4"
   },
   "devDependencies": {
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   }
 }
