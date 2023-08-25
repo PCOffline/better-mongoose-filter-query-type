@@ -2,8 +2,8 @@ export type AnyArray<T = any> = T[] | ReadonlyArray<T>;
 
 // Removes any signature indexes (such as [key: string]: any) from an interface
 export type RemoveIndex<T> = {
-  [K in keyof T as {} extends Record<K, 1> ? never : K]: T[K]
-}
+  [K in keyof T as {} extends Record<K, 1> ? never : K]: T[K];
+};
 
 /**
  * A utility function for DeepNestedAccess, handling accessing an array with a dot-notation string.
