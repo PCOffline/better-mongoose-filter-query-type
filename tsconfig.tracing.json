@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "isolatedModules": false,
+    "composite": false,
+    "incremental": false,
+    "extendedDiagnostics": true
+  },
+  "include": ["src"],
+  "exclude": ["src/test.ts"]
+}
