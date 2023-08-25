@@ -1,4 +1,4 @@
-export type AnyArray<T> = T[] | ReadonlyArray<T>;
+export type AnyArray<T = any> = T[] | ReadonlyArray<T>;
 
 // Removes any signature indexes (such as [key: string]: any) from an interface
 export type RemoveIndex<T> = {
