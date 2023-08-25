@@ -46,7 +46,7 @@ export type GetFieldByPath<
   ? Object[Path]
   : never;
 
-export type Printable = string | number | boolean;
+export type Printable = string | number | boolean | bigint | null | undefined;
 
 /**
  * Receives a string and an optional concatenation and returns a union of the string with and without the concatenated part.
@@ -59,22 +59,64 @@ export type ConcatUnion<Base extends Printable, Concat extends Printable> =
   | Base;
 
 /**
+ * Receives an object and returns a union of the keys of the object, excluding Symbols and keys whose value is a Function.
+ * Also, prevent the unwrapping of arrays, Date objects and functions.
+ *
+ * @returns a union of the keys of the object, excluding Symbols and keys whose value is a Function.
+ * @example
+ * interface Input {
+ *   a: string;
+ *   b: number;
+ *   c: { field: number; };
+ *   d: string[];
+ *   e: Date;
+ *   func(): void;
+ *   [Symbol.toPrimitive]: () => number;
+ * }
+ *
+ * type Output = KeysOf<Input>; // 'a' | 'b' | 'c' | 'd' | 'e'
+ * type OutputOfDate = KeysOf<Date>; // never
+ * type OutputOfArray = KeysOf<string[]>; // never
+ * type OutputOfFunction = KeysOf<() => void>; // never
+ */
+
+export type KeysOf<T extends object> = T extends Function | Date | AnyArray
+  ? never
+  : Extract<
+      keyof {
+        [K in Extract<keyof T, Printable> as T[K] extends Function
+          ? never
+          : K]: true;
+      },
+      Extract<keyof T, Printable> // This line does not actually change anything, but assures TypeScript that the output is a subset of the keys of T
+    >;
+
+/**
  * Receives an object and returns a union of keys and nested keys in dot-notation formatted specifically for Mongoose
  *
  * @example
  * type Obj = { field: number; nested: { field: string; }; array: string[] }
  * Recursion<Obj> //-> 'field' | 'nested.field' | 'array' | `array.${number}`
  */
-export type RecursiveFieldsOfObject<T> = keyof {
-  [Property in keyof T as T[Property] extends AnyArray<any>
-  ?
-  | `${string & Property}.${number}`
-  | Property
-  | (T[Property][number] extends object
-    ? `${ConcatUnion<`${string & Property}.`, `${number}.`>}${string &
-    RecursiveFieldsOfObject<T[Property][number]>}`
-    : never)
-  : T[Property] extends object
-  ? Property | `${string & Property}.${string & RecursiveFieldsOfObject<T[Property]>}`
-  : Property]: true;
+
+//! FIXME: Don't go into the internal fields of strings, numbers, Dates, arrays and functions and generally, exclude functions from the keysw.
+export type RecursiveFieldsOfObject<T extends object> = keyof {
+  [Property in KeysOf<T> as T[Property] extends AnyArray
+    ?
+        | Property
+        | `${string & Property}.${number}`
+        | (T[Property][number] extends object
+            ? `${ConcatUnion<`${Printable}.`, `${number}.`>}${Extract<
+                RecursiveFieldsOfObject<T[Property][number]>,
+                Printable
+              >}`
+            : never)
+    : T[Property] extends object
+    ?
+        | Property
+        | `${Property}.${Extract<
+            RecursiveFieldsOfObject<T[Property]>,
+            Printable
+          >}`
+    : Property]: true;
 };
