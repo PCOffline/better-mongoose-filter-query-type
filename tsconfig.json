@@ -107,7 +107,7 @@
     "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
     "paths": {
       "@": ["./src/index.d.ts"],
-      "@util": ["./src/util.d.ts"]
+      "@util": ["./src/clean-utils.d.ts"]
     }
   },
   "include": ["src", "tests"],
