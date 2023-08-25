@@ -1,4 +1,4 @@
-import { ConcatUnion } from '../../src/util.js';
+import { ConcatUnion } from '@util';
 import { expectTypeOf } from 'expect-type';
 
 expectTypeOf<ConcatUnion<'a', 'b'>>().toEqualTypeOf<'a' | 'ab'>();

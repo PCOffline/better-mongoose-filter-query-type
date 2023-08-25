@@ -1,4 +1,4 @@
-import { GetFieldInArrayByPath } from '../../src/util.js';
+import { GetFieldInArrayByPath } from '@util';
 import { expectTypeOf } from 'expect-type';
 
 // ----------------------------------------------------------------

@@ -1,4 +1,4 @@
-import { GetFieldByPath } from '../../src/util.js';
+import { GetFieldByPath } from '@util';
 import { expectTypeOf } from 'expect-type';
 
 interface ComplexObject {
